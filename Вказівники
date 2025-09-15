@@ -1,0 +1,81 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+int main() {
+    srand(time(0));
+
+    const int N = 10; // пусть будет 10 элементов для примера
+    int arr1[N];
+    int arr2[N];
+    int arr3[N];
+
+    // заполняем случайными числами
+    for (int i=0; i<N; i++) {
+        arr1[i] = rand()%100; // от 0 до 99
+    }
+
+    // Печатаем исходный массив
+    cout << "Исходный массив arr1: ";
+    for (int i=0;i<N;i++) cout << arr1[i] << " ";
+    cout << endl;
+
+    // 1) Копирование массива через указатели
+    cout << "\n1) Копирование массива указателями" << endl;
+    int *p1 = arr1;
+    int *p2 = arr2;
+    for (int i=0;i<N;i++) {
+        *(p2+i) = *(p1+i); // копируем
+        // cout << "DEBUG: " << *(p2+i) << endl;
+    }
+    cout << "arr2 после копирования: ";
+    for (int i=0;i<N;i++) cout << arr2[i] << " ";
+    cout << endl;
+
+    // 2) Разворот массива на месте
+    cout << "\n2) Разворот массива arr1" << endl;
+    int *left = arr1;
+    int *right = arr1 + N - 1;
+    while (left < right) {
+        int tmp = *left;
+        *left = *right;
+        *right = tmp;
+        left++;
+        right--;
+    }
+    cout << "arr1 после разворота: ";
+    for (int i=0;i<N;i++) cout << arr1[i] << " ";
+    cout << endl;
+
+    // 3) Копия массива в обратном порядке
+    cout << "\n3) Копирование arr1 -> arr3 в обратном порядке" << endl;
+    int *src = arr1;
+    int *dst = arr3 + N - 1;
+    for (int i=0;i<N;i++) {
+        *dst = *(src+i);
+        dst--;
+    }
+    cout << "arr3 (реверс arr1): ";
+    for (int i=0;i<N;i++) cout << arr3[i] << " ";
+    cout << endl;
+
+    // 4) max, min, avg
+    cout << "\n4) max, min, avg для arr1" << endl;
+    int *pp = arr1;
+    int maxx = *pp;
+    int minn = *pp;
+    int sum_of_numbers_here = 0;
+    for (int i=0;i<N;i++) {
+        int val = *(pp+i);
+        if (val > maxx) maxx = val;
+        if (val < minn) minn = val;
+        sum_of_numbers_here += val;
+        // cout << "DEBUG step " << i << ": " << val << endl;
+    }
+    double avg = (double)sum_of_numbers_here / N;
+    cout << "max=" << maxx << "  min=" << minn << "  avg=" << avg << endl;
+
+    return 0;
+}
+// я устал :(
